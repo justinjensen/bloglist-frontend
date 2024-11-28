@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react'
 import Blog from './components/Blog'
 import BlogForm from './components/BlogForm'
+import LoginForm from './components/LoginForm'
+import Togglable from './components/Togglable'
 import blogService from './services/blogs'
 import loginService from './services/login'
 
@@ -62,30 +64,14 @@ const App = () => {
   if (user === null) {
     return (
       <div>
-        <h2>log in to application</h2>
-        <form onSubmit={handleLogin}>
-          {successMessage && <div>{successMessage}</div>}
-          {errorMessage && <div>{errorMessage}</div>}
-          <div>
-            username
-            <input
-              type="text"
-              value={username}
-              name="Username"
-              onChange={({ target }) => setUsername(target.value)}
-            />
-          </div>
-          <div>
-            password
-            <input
-              type="password"
-              value={password}
-              name="Password"
-              onChange={({ target }) => setPassword(target.value)}
-            />
-          </div>
-          <button type="submit">login</button>
-        </form>
+        <LoginForm
+          handleSubmit={handleLogin}
+          handleUsernameChange={({ target }) => setUsername(target.value)}
+          handlePasswordChange={({ target }) => setPassword(target.value)}
+          username={username}
+          password={password}
+          errorMessage={errorMessage}
+        />
       </div>
     )
   }
@@ -101,11 +87,13 @@ const App = () => {
       </div>
       <div>
         <h2>create new</h2>
-        <BlogForm
-          blogs={blogs}
-          setBlogs={setBlogs}
-          setSuccessMessage={setSuccessMessage}
-        />
+        <Togglable buttonLabel="New blog">
+          <BlogForm
+            blogs={blogs}
+            setBlogs={setBlogs}
+            setSuccessMessage={setSuccessMessage}
+          />
+        </Togglable>
       </div>
       {blogs.map((blog) => (
         <Blog key={blog.id} blog={blog} />

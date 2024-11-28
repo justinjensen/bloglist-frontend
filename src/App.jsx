@@ -87,7 +87,7 @@ const App = () => {
       </div>
       <div>
         <h2>create new</h2>
-        <Togglable buttonLabel="New blog">
+        <Togglable showButtonLabel="New blog" hideButtonLabel="cancel">
           <BlogForm
             blogs={blogs}
             setBlogs={setBlogs}

@@ -90,6 +90,7 @@ const App = () => {
         <Togglable showButtonLabel="New blog" hideButtonLabel="cancel">
           <BlogForm
             blogs={blogs}
+            user={user}
             setBlogs={setBlogs}
             setSuccessMessage={setSuccessMessage}
           />

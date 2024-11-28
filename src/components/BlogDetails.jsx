@@ -14,6 +14,7 @@ const BlogDetails = ({ blog }) => {
     await blogService.update(blog.id, updatedBlog)
     setLikes(likes + 1)
   }
+  console.log(blog)
 
   return (
     <div>

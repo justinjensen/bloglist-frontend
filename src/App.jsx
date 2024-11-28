@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import Blog from './components/Blog'
+import BlogForm from './components/BlogForm'
 import blogService from './services/blogs'
 import loginService from './services/login'
 
@@ -10,9 +11,12 @@ const App = () => {
   const [password, setPassword] = useState('')
   const [errorMessage, setErrorMessage] = useState(null)
 
-  useEffect(async () => {
-    const blogs = await blogService.getAll()
-    setBlogs(blogs)
+  useEffect(() => {
+    const fetchBlogs = async () => {
+      const blogs = await blogService.getAll()
+      setBlogs(blogs)
+    }
+    fetchBlogs()
   }, [])
 
   useEffect(() => {
@@ -86,6 +90,10 @@ const App = () => {
       <div>
         {user.name} logged in
         <button onClick={handleLogout}>logout</button>
+      </div>
+      <div>
+        <h2>create new</h2>
+        <BlogForm blogs={blogs} setBlogs={setBlogs} />
       </div>
       {blogs.map((blog) => (
         <Blog key={blog.id} blog={blog} />

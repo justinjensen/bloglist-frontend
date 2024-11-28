@@ -12,4 +12,12 @@ const getAll = async () => {
   return request.then((response) => response.data)
 }
 
-export default { setToken, getAll }
+const create = async (newObject) => {
+  const config = {
+    headers: { Authorization: token }
+  }
+  const response = await axios.post(baseUrl, newObject, config)
+  return response.data
+}
+
+export default { setToken, getAll, create }

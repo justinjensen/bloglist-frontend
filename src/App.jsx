@@ -62,6 +62,18 @@ const App = () => {
     setUser(null)
   }
 
+  const removeBlog = async (blog) => {
+    if (window.confirm(`Remove blog ${blog.title} by ${blog.author}?`)) {
+      try {
+        await blogService.remove(blog.id)
+        setBlogs(blogs.filter((b) => b.id !== blog.id))
+        setSuccessMessage(`Blog ${blog.title} by ${blog.author} removed`)
+      } catch (exception) {
+        console.error('error removing blog')
+      }
+    }
+  }
+
   if (user === null) {
     return (
       <div>
@@ -89,16 +101,11 @@ const App = () => {
       <div>
         <h2>create new</h2>
         <Togglable showButtonLabel="New blog" hideButtonLabel="cancel">
-          <BlogForm
-            blogs={blogs}
-            user={user}
-            setBlogs={setBlogs}
-            setSuccessMessage={setSuccessMessage}
-          />
+          <BlogForm blogs={blogs} user={user} removeBlog={removeBlog} />
         </Togglable>
       </div>
       {blogs.map((blog) => (
-        <Blog key={blog.id} blog={blog} />
+        <Blog key={blog.id} blog={blog} user={user} removeBlog={removeBlog} />
       ))}
     </div>
   )

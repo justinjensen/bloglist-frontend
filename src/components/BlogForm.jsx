@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import blogService from '../services/blogs'
 
-const BlogForm = ({ blogs, setBlogs }) => {
+const BlogForm = ({ blogs, setBlogs, setSuccessMessage }) => {
   const [title, setTitle] = useState('')
   const [author, setAuthor] = useState('')
   const [url, setUrl] = useState('')
@@ -14,6 +14,10 @@ const BlogForm = ({ blogs, setBlogs }) => {
       url
     })
     setBlogs(blogs.concat(newBlog))
+    setSuccessMessage(`a new blog ${title} by ${author} added`)
+    setTimeout(() => {
+      setSuccessMessage(null)
+    }, 5000)
     setTitle('')
     setAuthor('')
     setUrl('')
@@ -24,15 +28,21 @@ const BlogForm = ({ blogs, setBlogs }) => {
       <form onSubmit={handleSubmit}>
         <div>
           title:
-          <input onChange={({ target }) => setTitle(target.value)} />
+          <input
+            value={title}
+            onChange={({ target }) => setTitle(target.value)}
+          />
         </div>
         <div>
           author:
-          <input onChange={({ target }) => setAuthor(target.value)} />
+          <input
+            value={author}
+            onChange={({ target }) => setAuthor(target.value)}
+          />
         </div>
         <div>
           url:
-          <input onChange={({ target }) => setUrl(target.value)} />
+          <input value={url} onChange={({ target }) => setUrl(target.value)} />
         </div>
         <button type="submit">create</button>
       </form>

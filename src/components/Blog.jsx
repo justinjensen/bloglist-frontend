@@ -17,7 +17,8 @@ const Blog = ({ blog, user, removeBlog }) => {
 
   return (
     <div style={blogStyle}>
-      {blog.title} {blog.author}{' '}
+      <span className="title">{blog.title}</span>{' '}
+      <span className="author">{blog.author}</span>{' '}
       <button onClick={toggleVisibility}>{visible ? 'hide' : 'show'}</button>
       {visible && (
         <BlogDetails blog={blog} user={user} removeBlog={removeBlog} />

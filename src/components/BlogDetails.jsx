@@ -21,8 +21,8 @@ const BlogDetails = ({ blog, user, removeBlog }) => {
 
   return (
     <div>
-      <div>{blog.url}</div>
-      <div>
+      <div className="url">{blog.url}</div>
+      <div className="likes">
         {likes} likes <button onClick={handleLike}>like</button>
       </div>
       <div>{blog.user.name}</div>

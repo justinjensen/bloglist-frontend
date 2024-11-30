@@ -1,18 +1,9 @@
 import { useState } from 'react'
 import blogService from '../services/blogs'
 
-const BlogDetails = ({ blog, user, removeBlog }) => {
-  const [likes, setLikes] = useState(blog.likes)
-
+const BlogDetails = ({ blog, user, incrementLikes, removeBlog }) => {
   const handleLike = async () => {
-    const updatedBlog = {
-      title: blog.title,
-      author: blog.author,
-      url: blog.url,
-      likes: likes + 1
-    }
-    await blogService.update(blog.id, updatedBlog)
-    setLikes(likes + 1)
+    await incrementLikes(blog)
   }
 
   const handleRemove = async () => {
@@ -23,7 +14,7 @@ const BlogDetails = ({ blog, user, removeBlog }) => {
     <div>
       <div className="url">{blog.url}</div>
       <div className="likes">
-        {likes} likes <button onClick={handleLike}>like</button>
+        {blog.likes} likes <button onClick={handleLike}>like</button>
       </div>
       <div>{blog.user.name}</div>
       {blog.user.username === user.username && (

@@ -17,8 +17,7 @@ const App = () => {
   useEffect(() => {
     const fetchBlogs = async () => {
       let blogs = await blogService.getAll()
-      blogs.sort((a, b) => b.likes - a.likes)
-      setBlogs(blogs)
+      setBlogs(sortBlogs(blogs))
     }
     fetchBlogs()
   }, [])
@@ -31,6 +30,10 @@ const App = () => {
       blogService.setToken(user.token)
     }
   }, [])
+
+  const sortBlogs = (blogs) => {
+    return blogs.sort((a, b) => b.likes - a.likes)
+  }
 
   const handleLogin = async (event) => {
     event.preventDefault()
@@ -71,7 +74,9 @@ const App = () => {
     })
     updatedBlog = { ...updatedBlog, user: blog.user }
     setBlogs(
-      blogs.map((blog) => (blog.id === updatedBlog.id ? updatedBlog : blog))
+      sortBlogs(
+        blogs.map((blog) => (blog.id === updatedBlog.id ? updatedBlog : blog))
+      )
     )
   }
 
@@ -125,7 +130,9 @@ const App = () => {
       {errorMessage && <div>{errorMessage}</div>}
       <div>
         {user.name} logged in
-        <button onClick={handleLogout}>logout</button>
+        <button data-testid="logout" onClick={handleLogout}>
+          logout
+        </button>
       </div>
       <div>
         <h2>create new</h2>

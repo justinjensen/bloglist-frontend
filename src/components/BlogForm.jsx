@@ -1,23 +1,18 @@
 import { useState } from 'react'
 import blogService from '../services/blogs'
 
-const BlogForm = ({ blogs, user, setBlogs, setSuccessMessage }) => {
+const BlogForm = ({ createBlog }) => {
   const [title, setTitle] = useState('')
   const [author, setAuthor] = useState('')
   const [url, setUrl] = useState('')
 
   const handleSubmit = async (event) => {
     event.preventDefault()
-    const newBlog = await blogService.create({
+    createBlog({
       title,
       author,
       url
     })
-    setBlogs(blogs.concat({ ...newBlog, user }))
-    setSuccessMessage(`a new blog ${title} by ${author} added`)
-    setTimeout(() => {
-      setSuccessMessage(null)
-    }, 5000)
     setTitle('')
     setAuthor('')
     setUrl('')
@@ -29,6 +24,7 @@ const BlogForm = ({ blogs, user, setBlogs, setSuccessMessage }) => {
         <div>
           title:
           <input
+            id="title"
             value={title}
             onChange={({ target }) => setTitle(target.value)}
           />
@@ -36,15 +32,22 @@ const BlogForm = ({ blogs, user, setBlogs, setSuccessMessage }) => {
         <div>
           author:
           <input
+            id="author"
             value={author}
             onChange={({ target }) => setAuthor(target.value)}
           />
         </div>
         <div>
           url:
-          <input value={url} onChange={({ target }) => setUrl(target.value)} />
+          <input
+            id="url"
+            value={url}
+            onChange={({ target }) => setUrl(target.value)}
+          />
         </div>
-        <button type="submit">create</button>
+        <button id="createBtn" type="submit">
+          create
+        </button>
       </form>
     </div>
   )

@@ -75,6 +75,22 @@ const App = () => {
     )
   }
 
+  const createBlog = async (blogObject) => {
+    try {
+      let newBlog = await blogService.create(blogObject)
+      newBlog = { ...newBlog, user: user }
+      setBlogs(blogs.concat(newBlog))
+      setSuccessMessage(
+        `a new blog ${newBlog.title} by ${newBlog.author} added`
+      )
+      setTimeout(() => {
+        setSuccessMessage(null)
+      }, 5000)
+    } catch (exception) {
+      console.error('error creating blog')
+    }
+  }
+
   const removeBlog = async (blog) => {
     if (window.confirm(`Remove blog ${blog.title} by ${blog.author}?`)) {
       try {
@@ -114,7 +130,7 @@ const App = () => {
       <div>
         <h2>create new</h2>
         <Togglable showButtonLabel="New blog" hideButtonLabel="cancel">
-          <BlogForm blogs={blogs} user={user} />
+          <BlogForm createBlog={createBlog} />
         </Togglable>
       </div>
       {blogs.map((blog) => (
